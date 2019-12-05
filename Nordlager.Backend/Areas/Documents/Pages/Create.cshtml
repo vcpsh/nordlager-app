@@ -1,0 +1,65 @@
+﻿@page
+@model Nordlager.Backend.Areas.Documents.Pages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>DocumentItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.Title" class="control-label"></label>
+                <input asp-for="DocumentItem.Title" class="form-control" />
+                <span asp-validation-for="DocumentItem.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.Description" class="control-label"></label>
+                <input asp-for="DocumentItem.Description" class="form-control" />
+                <span asp-validation-for="DocumentItem.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.ButtonUrl" class="control-label"></label>
+                <input asp-for="DocumentItem.ButtonUrl" class="form-control" />
+                <span asp-validation-for="DocumentItem.ButtonUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.ButtonText" class="control-label"></label>
+                <input asp-for="DocumentItem.ButtonText" class="form-control" />
+                <span asp-validation-for="DocumentItem.ButtonText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.CreatedAt" class="control-label"></label>
+                <input asp-for="DocumentItem.CreatedAt" class="form-control" />
+                <span asp-validation-for="DocumentItem.CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.ValidFrom" class="control-label"></label>
+                <input asp-for="DocumentItem.ValidFrom" class="form-control" />
+                <span asp-validation-for="DocumentItem.ValidFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentItem.ValidTo" class="control-label"></label>
+                <input asp-for="DocumentItem.ValidTo" class="form-control" />
+                <span asp-validation-for="DocumentItem.ValidTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
