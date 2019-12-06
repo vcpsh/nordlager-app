@@ -80,7 +80,6 @@ namespace Nordlager.Backend
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
