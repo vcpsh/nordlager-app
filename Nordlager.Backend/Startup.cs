@@ -71,6 +71,8 @@ namespace Nordlager.Backend
                 options.ForwardedHeaders = 
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,6 +108,7 @@ namespace Nordlager.Backend
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
 
             using var serviceScope = app.ApplicationServices.CreateScope();
