@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Nordlager.Backend.Authorization;
 using Nordlager.Backend.Models;
 
@@ -39,7 +40,7 @@ namespace Nordlager.Backend
             
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
-            
+
             services.AddRazorPages().AddMvcOptions(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -47,7 +48,6 @@ namespace Nordlager.Backend
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
-            
             
             services.AddScoped<IAuthorizationHandler, AdminHandler>();
             services.AddRouting();
@@ -77,6 +77,13 @@ namespace Nordlager.Backend
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders();
+            app.Use((ctx, next) =>
+            {
+                // Force https because the forwarded stuff does sometimes not work with our k8s
+                ctx.Request.Scheme = "https";
+                return next();
+            });
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
