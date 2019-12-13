@@ -11,13 +11,13 @@ namespace Nordlager.Backend.Migrations
                 name: "CreatedAt",
                 table: "News",
                 nullable: false,
-                defaultValueSql: "getdate()");
+                defaultValueSql: "now()");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreatedAt",
                 table: "Documents",
                 nullable: false,
-                defaultValueSql: "getdate()",
+                defaultValueSql: "now()",
                 oldClrType: typeof(DateTime),
                 oldType: "datetime(6)");
         }
@@ -34,7 +34,7 @@ namespace Nordlager.Backend.Migrations
                 type: "datetime(6)",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldDefaultValueSql: "getdate()");
+                oldDefaultValueSql: "now()");
         }
     }
 }

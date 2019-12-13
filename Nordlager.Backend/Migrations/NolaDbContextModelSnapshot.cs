@@ -51,7 +51,7 @@ namespace Nordlager.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("getdate()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -81,7 +81,7 @@ namespace Nordlager.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("getdate()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .IsRequired()

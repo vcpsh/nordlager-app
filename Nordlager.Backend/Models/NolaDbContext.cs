@@ -20,8 +20,8 @@ namespace Nordlager.Backend.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<DocumentItem>().Property(d => d.CreatedAt).HasDefaultValueSql("getdate()");
-            builder.Entity<NewsItem>().Property(n => n.CreatedAt).HasDefaultValueSql("getdate()");
+            builder.Entity<DocumentItem>().Property(d => d.CreatedAt).HasDefaultValueSql("now()");
+            builder.Entity<NewsItem>().Property(n => n.CreatedAt).HasDefaultValueSql("now()");
         }
     }
 }

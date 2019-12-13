@@ -9,7 +9,7 @@ using Nordlager.Backend.Models;
 namespace Nordlager.Backend.Migrations
 {
     [DbContext(typeof(NolaDbContext))]
-    [Migration("20191213165546_DefaultValues")]
+    [Migration("20191213172713_DefaultValues")]
     partial class DefaultValues
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace Nordlager.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("getdate()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -83,7 +83,7 @@ namespace Nordlager.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("getdate()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .IsRequired()
