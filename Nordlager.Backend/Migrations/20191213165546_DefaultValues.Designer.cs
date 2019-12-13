@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nordlager.Backend.Models;
 
 namespace Nordlager.Backend.Migrations
 {
     [DbContext(typeof(NolaDbContext))]
-    partial class NolaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191213165546_DefaultValues")]
+    partial class DefaultValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
