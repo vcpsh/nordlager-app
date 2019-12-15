@@ -15,9 +15,9 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  ${{ if eq( variables['Build.SourceBranchName'], 'master' ) }}:
+  ${{ if ne(variables['Build.Reason'], 'PullRequest' ) }}:
     tag_branch_name: '$(Build.SourceBranchName'
-  ${{ if ne( variables['System.PullRequest.SourceBranch'], variables['noSuch']) }}:
+  ${{ if eq(variables['Build.Reason'], 'PullRequest' ) }}:
     tag_branch_name: ${{ variables['System.PullRequest.SourceBranch'] }}
 
 stages:
@@ -38,6 +38,5 @@ stages:
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
-          ${{ if ne( variables['tag_branch_name'], variables['noSuch']) }}
-            $(tag_branch_name)
+          $(tag_branch_name)
 
