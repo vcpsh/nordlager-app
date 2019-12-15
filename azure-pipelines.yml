@@ -17,7 +17,7 @@ variables:
   tag: '$(Build.BuildId)'
   ${{ if eq( variables['Build.SourceBranchName'], 'master' ) }}:
     tag_branch_name: 'latest'
-  ${{ if ne( variables['System.PullRequest.SourceBranch'], null ) }}:
+  ${{ if ne( variables['System.PullRequest.SourceBranch'], variables['noSuch'] }}:
     tag_branch_name: ${{ variables['System.PullRequest.SourceBranch'] }}
 
 stages:
