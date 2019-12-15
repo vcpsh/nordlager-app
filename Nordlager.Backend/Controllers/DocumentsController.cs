@@ -27,7 +27,14 @@ namespace Nordlager.Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DocumentItem>>> GetDocuments()
         {
-            return await this._context.Documents.Where(d => d.ValidFrom.HasValue && d.ValidTo.HasValue).ToListAsync();
+            var documents =  await this._context.Documents.ToListAsync();
+            documents = documents.Where(item =>
+            {
+                var validTo = item.ValidTo ?? DateTime.MaxValue;
+                var validFrom = item.ValidFrom ?? DateTime.MinValue;
+                return validFrom < DateTime.Now && validTo > DateTime.Now;
+            }).ToList();
+            return Ok(documents);
         }
     }
 }

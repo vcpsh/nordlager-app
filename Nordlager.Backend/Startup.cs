@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -14,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Nordlager.Backend.Authorization;
 using Nordlager.Backend.Models;
 
@@ -38,7 +40,7 @@ namespace Nordlager.Backend
             
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
-            
+
             services.AddRazorPages().AddMvcOptions(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -46,7 +48,6 @@ namespace Nordlager.Backend
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
-            
             
             services.AddScoped<IAuthorizationHandler, AdminHandler>();
             services.AddRouting();
@@ -64,11 +65,27 @@ namespace Nordlager.Backend
 //                    options.Conventions.AllowAnonymousToPage("/Index");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = 
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders();
+            app.Use((ctx, next) =>
+            {
+                // Force https because the forwarded stuff does sometimes not work with our k8s
+                ctx.Request.Scheme = "https";
+                return next();
+            });
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -80,7 +97,6 @@ namespace Nordlager.Backend
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -92,6 +108,7 @@ namespace Nordlager.Backend
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
 
             using var serviceScope = app.ApplicationServices.CreateScope();

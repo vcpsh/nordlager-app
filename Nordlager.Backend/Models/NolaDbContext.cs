@@ -17,5 +17,11 @@ namespace Nordlager.Backend.Models
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<DocumentItem>().Property(d => d.CreatedAt).HasDefaultValueSql("now()");
+            builder.Entity<NewsItem>().Property(n => n.CreatedAt).HasDefaultValueSql("now()");
+        }
     }
 }
