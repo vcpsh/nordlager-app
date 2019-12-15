@@ -16,9 +16,9 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   ${{ if ne(variables['Build.Reason'], 'PullRequest' ) }}:
-    tag_branch_name: '$(Build.SourceBranchName'
+    tag_branch_name: '$(Build.SourceBranchName)'
   ${{ if eq(variables['Build.Reason'], 'PullRequest' ) }}:
-    tag_branch_name: ${{ variables['System.PullRequest.SourceBranch'] }}
+    tag_branch_name: $(System.PullRequest.SourceBranch)'
 
 stages:
 - stage: Build
